@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -10,7 +10,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<PackageReference Include="GraphQL" Version="4.6.1" />
+	<PackageReference Include="GraphQL.Server.Authorization.AspNetCore" Version="5.0.2" />
+	<PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="5.0.2" />
+	<PackageReference Include="GraphQL.Server.Transports.AspNetCore.SystemTextJson" Version="5.0.2" />
+	<PackageReference Include="GraphQL.Server.Transports.Subscriptions.WebSockets" Version="5.0.2" />
+	<PackageReference Include="GraphQL.Server.Ui.Altair" Version="5.2.0" />
+	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="5.0.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +31,16 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GraphQL\Admin\Roles\DTO\" />
+    <Folder Include="GraphQL\Admin\Users\DTO\" />
+    <Folder Include="GraphQL\Client\Users\DTO\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Geesemon.Database\Geesemon.Database.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
