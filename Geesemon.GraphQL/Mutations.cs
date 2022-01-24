@@ -8,7 +8,7 @@ namespace Geesemon.GraphQL
     {
         public Mutations(IEnumerable<IClientMutationMarker> clientMutationMarkers)
         {
-            Name = "ClientMutations";
+            Name = "Mutations";
 
             foreach (var clientMutationMarker in clientMutationMarkers)
             {

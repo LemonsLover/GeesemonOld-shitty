@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Geesemon.Database\Geesemon.Database.csproj" />
+    <ProjectReference Include="..\Geesemon.GraphQL\Geesemon.GraphQL.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -8,7 +8,7 @@ namespace Geesemon.GraphQL
     {
         public Subscriptions(IEnumerable<IClientSubscriptionMarker> clientSubscriptionMarkers)
         {
-            Name = "ClientSubscriptions";
+            Name = "Subscriptions";
 
             foreach (var clientSubscriptionMarker in clientSubscriptionMarkers)
             {

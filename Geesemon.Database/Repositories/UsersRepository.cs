@@ -11,7 +11,6 @@ namespace Geesemon.Database.Repositories
     public class UsersRepository
     {
         private readonly AppDatabaseContext _ctx;
-        private readonly ISubject<User> _userStream = new ReplaySubject<User>(1);
 
         public UsersRepository(AppDatabaseContext ctx)
         {
@@ -35,15 +34,7 @@ namespace Geesemon.Database.Repositories
                 throw new Exception("User with current email already exists");
             _ctx.Users.Add(user);
             await _ctx.SaveChangesAsync();
-            _userStream.OnNext(user);
             return user;
-        }
-
-        public IObservable<User> SubscribeCreate()
-        {
-            return _userStream
-                .Select(message => message)
-                .AsObservable();
         }
     }
 }

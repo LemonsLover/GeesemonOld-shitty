@@ -8,7 +8,7 @@ namespace Geesemon.GraphQL
     {
         public Queries(IEnumerable<IClientQueryMarker> clientQueryMarkers)
         {
-            Name = "ClientQueries";
+            Name = "Queries";
 
             foreach (var clientQueryMarker in clientQueryMarkers)
             {

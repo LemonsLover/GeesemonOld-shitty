@@ -1,0 +1,15 @@
+D:\Projects\Geesemon\Geesemon.GraphQL\bin\Debug\net5.0\Geesemon.GraphQL.deps.json
+D:\Projects\Geesemon\Geesemon.GraphQL\bin\Debug\net5.0\Geesemon.GraphQL.dll
+D:\Projects\Geesemon\Geesemon.GraphQL\bin\Debug\net5.0\ref\Geesemon.GraphQL.dll
+D:\Projects\Geesemon\Geesemon.GraphQL\bin\Debug\net5.0\Geesemon.GraphQL.pdb
+D:\Projects\Geesemon\Geesemon.GraphQL\bin\Debug\net5.0\Geesemon.Database.dll
+D:\Projects\Geesemon\Geesemon.GraphQL\bin\Debug\net5.0\Geesemon.Database.pdb
+D:\Projects\Geesemon\Geesemon.GraphQL\obj\Debug\net5.0\Geesemon.GraphQL.csproj.AssemblyReference.cache
+D:\Projects\Geesemon\Geesemon.GraphQL\obj\Debug\net5.0\Geesemon.GraphQL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Geesemon\Geesemon.GraphQL\obj\Debug\net5.0\Geesemon.GraphQL.AssemblyInfoInputs.cache
+D:\Projects\Geesemon\Geesemon.GraphQL\obj\Debug\net5.0\Geesemon.GraphQL.AssemblyInfo.cs
+D:\Projects\Geesemon\Geesemon.GraphQL\obj\Debug\net5.0\Geesemon.GraphQL.csproj.CoreCompileInputs.cache
+D:\Projects\Geesemon\Geesemon.GraphQL\obj\Debug\net5.0\Geesemon.GraphQL.csproj.CopyComplete
+D:\Projects\Geesemon\Geesemon.GraphQL\obj\Debug\net5.0\Geesemon.GraphQL.dll
+D:\Projects\Geesemon\Geesemon.GraphQL\obj\Debug\net5.0\ref\Geesemon.GraphQL.dll
+D:\Projects\Geesemon\Geesemon.GraphQL\obj\Debug\net5.0\Geesemon.GraphQL.pdb

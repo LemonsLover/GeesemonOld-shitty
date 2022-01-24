@@ -2,7 +2,9 @@ using Geesemon.Database;
 using Geesemon.Database.Repositories;
 using Geesemon.GraphQL;
 using Geesemon.GraphQL.Abstraction;
+using Geesemon.GraphQL.Services;
 using Geesemon.GraphQL.Users;
+using Geesemon.Utils;
 using GraphQL;
 using GraphQL.Server;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -39,9 +41,9 @@ namespace Geesemon
 #else
             connectionString = StringUtils.ConvertConnectionString(Environment.GetEnvironmentVariable("JAWSDB_URL"));
 #endif
-            services.AddDbContext<AppDatabaseContext>(options => options.UseMySQL(connectionString));
-            services.AddTransient<UsersRepository>();
-            services.AddTransient<RolesRepository>();
+            services.AddDbContext<AppDatabaseContext>(options => options.UseMySQL(connectionString), ServiceLifetime.Singleton);
+            services.AddSingleton<UsersRepository>();
+            services.AddSingleton<RolesRepository>();
 
             services.AddAuthentication(options =>
             {
@@ -66,17 +68,17 @@ namespace Geesemon
                  options.SaveToken = true;
              });
 
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IDocumentExecuter, SubscriptionDocumentExecuter>();
 
-            services.AddTransient<IClientQueryMarker, UsersQueries>();
-            services.AddTransient<IClientMutationMarker, UsersMutations>();
-            services.AddTransient<IClientSubscriptionMarker, UsersSubscriptions>();
+            services.AddSingleton<IClientQueryMarker, UsersQueries>();
+            services.AddSingleton<IClientMutationMarker, UsersMutations>();
+            services.AddSingleton<IClientSubscriptionMarker, UsersSubscriptions>();
+            services.AddSingleton<UserAddedService>();
 
-            services.AddTransient<AppSchema>();
+            services.AddSingleton<AppSchema>();
             services
                 .AddGraphQL()
-                .AddGraphTypes(ServiceLifetime.Transient)
                 .AddSystemTextJson()
                 .AddWebSockets()
                 .AddDataLoader()
