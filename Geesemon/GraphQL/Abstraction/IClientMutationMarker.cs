@@ -1,4 +1,4 @@
-﻿namespace Geesemon.GraphQL.Client.Abstraction
+﻿namespace Geesemon.GraphQL.Abstraction
 {
     public interface IClientMutationMarker
     {

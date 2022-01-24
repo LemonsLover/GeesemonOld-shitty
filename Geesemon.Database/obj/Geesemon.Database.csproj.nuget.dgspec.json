@@ -57,6 +57,10 @@
             "MySql.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.10, )"
+            },
+            "System.Reactive": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             }
           },
           "imports": [

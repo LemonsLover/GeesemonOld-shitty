@@ -1,12 +1,12 @@
-﻿using Geesemon.GraphQL.Client.Abstraction;
+﻿using Geesemon.GraphQL.Abstraction;
 using GraphQL.Types;
 using System.Collections.Generic;
 
-namespace Geesemon.GraphQL.Client
+namespace Geesemon.GraphQL
 {
-    public class ClientMutations : ObjectGraphType
+    public class Mutations : ObjectGraphType
     {
-        public ClientMutations(IEnumerable<IClientMutationMarker> clientMutationMarkers)
+        public Mutations(IEnumerable<IClientMutationMarker> clientMutationMarkers)
         {
             Name = "ClientMutations";
 

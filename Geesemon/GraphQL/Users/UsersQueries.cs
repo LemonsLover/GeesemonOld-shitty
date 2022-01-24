@@ -1,8 +1,8 @@
 ﻿using Geesemon.Database.Repositories;
-using Geesemon.GraphQL.Client.Abstraction;
+using Geesemon.GraphQL.Abstraction;
 using GraphQL.Types;
 
-namespace Geesemon.GraphQL.Client.Users
+namespace Geesemon.GraphQL.Users
 {
     public class UsersQueries : ObjectGraphType, IClientQueryMarker
     {

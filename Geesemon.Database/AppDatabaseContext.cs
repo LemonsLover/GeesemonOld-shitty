@@ -12,5 +12,12 @@ namespace Geesemon.Database
 
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+        }
     }
 }

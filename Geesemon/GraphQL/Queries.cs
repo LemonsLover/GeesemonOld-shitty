@@ -1,12 +1,12 @@
-﻿using Geesemon.GraphQL.Client.Abstraction;
+﻿using Geesemon.GraphQL.Abstraction;
 using GraphQL.Types;
 using System.Collections.Generic;
 
-namespace Geesemon.GraphQL.Client
+namespace Geesemon.GraphQL
 {
-    public class ClientQueries : ObjectGraphType
+    public class Queries : ObjectGraphType
     {
-        public ClientQueries(IEnumerable<IClientQueryMarker> clientQueryMarkers)
+        public Queries(IEnumerable<IClientQueryMarker> clientQueryMarkers)
         {
             Name = "ClientQueries";
 

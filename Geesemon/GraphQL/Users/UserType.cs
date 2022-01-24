@@ -1,7 +1,7 @@
 ﻿using Geesemon.Database.Models;
 using GraphQL.Types;
 
-namespace Geesemon.GraphQL.Admin.Users
+namespace Geesemon.GraphQL.Users
 {
     public class UserType : ObjectGraphType<User>
     {

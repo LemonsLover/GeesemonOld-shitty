@@ -1,12 +1,8 @@
 using Geesemon.Database;
 using Geesemon.Database.Repositories;
-using Geesemon.GraphQL.Admin;
-using Geesemon.GraphQL.Admin.Abstraction;
-using Geesemon.GraphQL.Admin.Roles;
-using Geesemon.GraphQL.Admin.Users;
-using Geesemon.GraphQL.Client;
-using Geesemon.GraphQL.Client.Abstraction;
-using Geesemon.Utils;
+using Geesemon.GraphQL;
+using Geesemon.GraphQL.Abstraction;
+using Geesemon.GraphQL.Users;
 using GraphQL;
 using GraphQL.Server;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -37,7 +33,13 @@ namespace Geesemon
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDatabaseContext>(options => options.UseMySQL(StringUtils.ConvertConnectionString(Environment.GetEnvironmentVariable("JAWSDB_URL"))));
+            string connectionString;
+#if(DEBUG)
+            connectionString = "server=localhost;user=root;password=;database=geesemon;";
+#else
+            connectionString = StringUtils.ConvertConnectionString(Environment.GetEnvironmentVariable("JAWSDB_URL"));
+#endif
+            services.AddDbContext<AppDatabaseContext>(options => options.UseMySQL(connectionString));
             services.AddTransient<UsersRepository>();
             services.AddTransient<RolesRepository>();
 
@@ -65,40 +67,20 @@ namespace Geesemon
              });
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IDocumentExecuter, SubscriptionDocumentExecuter>();
 
-            services.AddTransient<IAdminQueryMarker, UsersQueries>();
-            services.AddTransient<IAdminQueryMarker, RolesQueries>();
-            services.AddTransient<IAdminMutationMarker, UsersMutations>();
-            services.AddTransient<IAdminMutationMarker, RolesMutations>();
+            services.AddTransient<IClientQueryMarker, UsersQueries>();
+            services.AddTransient<IClientMutationMarker, UsersMutations>();
+            services.AddTransient<IClientSubscriptionMarker, UsersSubscriptions>();
 
-            services.AddTransient<AdminSchema>();
+            services.AddTransient<AppSchema>();
             services
                 .AddGraphQL()
                 .AddGraphTypes(ServiceLifetime.Transient)
                 .AddSystemTextJson()
                 .AddWebSockets()
                 .AddDataLoader()
-                .AddGraphTypes(typeof(AdminSchema))
-                .AddGraphQLAuthorization(options =>
-                {
-                    options.AddPolicy("Authenticated", p => p.RequireAuthenticatedUser());
-                    options.AddPolicy("Admin", p => p.RequireClaim(ClaimTypes.Role, "admin"));
-                    options.AddPolicy("User", p => p.RequireClaim(ClaimTypes.Role, "user"));
-                })
-                .AddErrorInfoProvider(options => options.ExposeExceptionStackTrace = true);
-            
-            
-            services.AddTransient<IClientQueryMarker, GraphQL.Client.Users.UsersQueries>();
-            services.AddTransient<IClientMutationMarker, GraphQL.Client.Users.UsersMutations>();
-
-            services.AddTransient<ClientSchema>();
-            services
-                .AddGraphQL()
-                .AddGraphTypes(ServiceLifetime.Transient)
-                .AddSystemTextJson()
-                .AddWebSockets()
-                .AddDataLoader()
-                .AddGraphTypes(typeof(ClientSchema))
+                .AddGraphTypes(typeof(AppSchema))
                 .AddGraphQLAuthorization(options =>
                 {
                     options.AddPolicy("Authenticated", p => p.RequireAuthenticatedUser());
@@ -132,12 +114,10 @@ namespace Geesemon
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGraphQL<AdminSchema>("graphql-admin");
-                endpoints.MapGraphQL<ClientSchema>("graphql-client");
-                endpoints.MapGraphQLAltair();
-            });
+            app.UseWebSockets();
+            app.UseGraphQLWebSockets<AppSchema>();
+            app.UseGraphQL<AppSchema>();
+            app.UseGraphQLAltair();
 
             app.UseSpa(spa =>
             {

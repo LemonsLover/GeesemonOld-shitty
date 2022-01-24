@@ -16,6 +16,7 @@
 	<PackageReference Include="GraphQL.Server.Transports.AspNetCore.SystemTextJson" Version="5.0.2" />
 	<PackageReference Include="GraphQL.Server.Transports.Subscriptions.WebSockets" Version="5.0.2" />
 	<PackageReference Include="GraphQL.Server.Ui.Altair" Version="5.2.0" />
+	<PackageReference Include="GraphQL.SystemReactive" Version="4.6.1" />
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.13" />
@@ -31,12 +32,6 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="GraphQL\Admin\Roles\DTO\" />
-    <Folder Include="GraphQL\Admin\Users\DTO\" />
-    <Folder Include="GraphQL\Client\Users\DTO\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,7 @@
-﻿namespace Geesemon.Database.Models
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Geesemon.Database.Models
 {
     public class User
     {

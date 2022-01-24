@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ORvY1WgfmpAMRnfAcMvddf6d7b8ljTvjEGbMI9qHPVAAwzTx9gCu/oCXjxXZAqaO983tR6HilY+EDPsN/eLvWw==",
+  "dgSpecHash": "HiW8msC1uO8AC9l9GcLZC8uvYk0Xoo3pEbgKAtp7tAu5LSAjwKKk2BsNfgLwyj0WbDtG4ZtyAt7RIOBqCc+y/A==",
   "success": true,
   "projectFilePath": "D:\\Projects\\Geesemon\\Geesemon.Database\\Geesemon.Database.csproj",
   "expectedPackageFiles": [
@@ -37,6 +37,7 @@
     "C:\\Users\\Grozer PC\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.1\\system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512",
     "C:\\Users\\Grozer PC\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512",
     "C:\\Users\\Grozer PC\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\Grozer PC\\.nuget\\packages\\system.reactive\\5.0.0\\system.reactive.5.0.0.nupkg.sha512",
     "C:\\Users\\Grozer PC\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
     "C:\\Users\\Grozer PC\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
     "C:\\Users\\Grozer PC\\.nuget\\packages\\system.security.cryptography.protecteddata\\4.4.0\\system.security.cryptography.protecteddata.4.4.0.nupkg.sha512",
