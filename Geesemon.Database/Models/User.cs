@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
 
 namespace Geesemon.Database.Models
 {
-    public class User
+    public class User : BaseEntity
     {
-        public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+
+        public virtual IEnumerable<Chat> Chats { get; set; }
+        public virtual IEnumerable<Message> Messages { get; set; }
     }
 }

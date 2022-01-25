@@ -17,17 +17,17 @@ namespace Geesemon.Database.Repositories
             _ctx = ctx;
         }
 
-        public async Task<IEnumerable<User>> Get()
+        public async Task<IEnumerable<User>> GetAsync()
         {
             return await _ctx.Users.ToListAsync();
         }
         
-        public async Task<User> GetById(int userId)
+        public async Task<User> GetByIdAsync(int userId)
         {
             return await _ctx.Users.FindAsync(userId);
         }
         
-        public async Task<User> Create(User user)
+        public async Task<User> CreateAsync(User user)
         {
             User checkUser = await _ctx.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
             if (checkUser != null)

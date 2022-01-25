@@ -16,12 +16,12 @@ namespace Geesemon.Database.Repositories
             _ctx = ctx;
         }
 
-        public async Task<IEnumerable<Role>> Get()
+        public async Task<IEnumerable<Role>> GetAsync()
         {
             return await _ctx.Roles.ToListAsync();
         }
         
-        public async Task<Role> Create()
+        public async Task<Role> CreateAsync()
         {
             return null;
         }

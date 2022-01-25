@@ -13,7 +13,11 @@ namespace Geesemon.GraphQL.Users
 
             Name = "UsersQuery";
 
-            Field<ListGraphType<UserType>>("getUsers", "Returns a list of Users", resolve: context => _usersRepository.Get());
+            //Field<ListGraphType<UserType>>("getUsers", "Returns a list of Users", resolve: context => _usersRepository.Get());
+
+            Field<ListGraphType<UserType>>()
+                .Name("getUsers")
+                .ResolveAsync(async context => await _usersRepository.GetAsync());
         }
     }
 }

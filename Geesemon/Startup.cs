@@ -41,9 +41,10 @@ namespace Geesemon
 #else
             connectionString = StringUtils.ConvertConnectionString(Environment.GetEnvironmentVariable("JAWSDB_URL"));
 #endif
-            services.AddDbContext<AppDatabaseContext>(options => options.UseMySQL(connectionString), ServiceLifetime.Singleton);
-            services.AddSingleton<UsersRepository>();
-            services.AddSingleton<RolesRepository>();
+            services.AddDbContext<AppDatabaseContext>(options => options.UseMySQL(connectionString));
+            services.AddScoped<UsersRepository>();
+            services.AddScoped<RolesRepository>();
+            services.AddScoped<ChatsRepository>();
 
             services.AddAuthentication(options =>
             {
@@ -68,21 +69,21 @@ namespace Geesemon
                  options.SaveToken = true;
              });
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IDocumentExecuter, SubscriptionDocumentExecuter>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IDocumentExecuter, SubscriptionDocumentExecuter>();
 
-            services.AddSingleton<IClientQueryMarker, UsersQueries>();
-            services.AddSingleton<IClientMutationMarker, UsersMutations>();
-            services.AddSingleton<IClientSubscriptionMarker, UsersSubscriptions>();
+            services.AddTransient<IClientQueryMarker, UsersQueries>();
+            services.AddTransient<IClientMutationMarker, UsersMutations>();
+            services.AddTransient<IClientSubscriptionMarker, UsersSubscriptions>();
             services.AddSingleton<UserAddedService>();
 
-            services.AddSingleton<AppSchema>();
+            services.AddTransient<AppSchema>();
             services
                 .AddGraphQL()
                 .AddSystemTextJson()
                 .AddWebSockets()
                 .AddDataLoader()
-                .AddGraphTypes(typeof(AppSchema))
+                .AddGraphTypes(typeof(AppSchema), ServiceLifetime.Transient)
                 .AddGraphQLAuthorization(options =>
                 {
                     options.AddPolicy("Authenticated", p => p.RequireAuthenticatedUser());

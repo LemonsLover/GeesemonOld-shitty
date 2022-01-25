@@ -19,12 +19,11 @@ namespace Geesemon.GraphQL.Users
 
             Field<UserType>()
                 .Name("createUser")
-                .Description("Create a new User")
                 .Argument<CreateUserInputType, User>("createUserInputType", "Argument for create new User")
                 .ResolveAsync(async (context) => 
                 {
                     User user = context.GetArgument<User>("createUserInputType");
-                    user = await _usersRepository.Create(user);
+                    user = await _usersRepository.CreateAsync(user);
                     userAddedService.Add(user);
                     return user;
                 });
