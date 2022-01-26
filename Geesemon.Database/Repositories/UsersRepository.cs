@@ -27,6 +27,11 @@ namespace Geesemon.Database.Repositories
             return await _ctx.Users.FindAsync(userId);
         }
         
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return await _ctx.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+        
         public async Task<User> CreateAsync(User user)
         {
             User checkUser = await _ctx.Users.FirstOrDefaultAsync(u => u.Email == user.Email);

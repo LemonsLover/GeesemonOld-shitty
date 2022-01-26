@@ -15,14 +15,12 @@ namespace Geesemon.Database
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<Chat> Chats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<User>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
+            builder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            builder.Entity<User>().Property(u => u.Role).HasDefaultValue(RoleEnum.User);
         }
 
         public override int SaveChanges()

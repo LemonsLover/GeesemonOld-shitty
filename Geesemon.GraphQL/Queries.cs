@@ -6,7 +6,7 @@ namespace Geesemon.GraphQL
 {
     public class Queries : ObjectGraphType
     {
-        public Queries(IEnumerable<IClientQueryMarker> clientQueryMarkers)
+        public Queries(IEnumerable<IQueryMarker> clientQueryMarkers)
         {
             Name = "Queries";
 

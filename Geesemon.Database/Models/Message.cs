@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Geesemon.Database.Models
+﻿namespace Geesemon.Database.Models
 {
     public class Message : BaseEntity
     {

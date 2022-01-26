@@ -6,7 +6,7 @@ namespace Geesemon.GraphQL
 {
     public class Subscriptions : ObjectGraphType
     {
-        public Subscriptions(IEnumerable<IClientSubscriptionMarker> clientSubscriptionMarkers)
+        public Subscriptions(IEnumerable<ISubscriptionMarker> clientSubscriptionMarkers)
         {
             Name = "Subscriptions";
 

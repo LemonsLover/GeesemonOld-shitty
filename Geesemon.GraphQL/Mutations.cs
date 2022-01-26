@@ -6,7 +6,7 @@ namespace Geesemon.GraphQL
 {
     public class Mutations : ObjectGraphType
     {
-        public Mutations(IEnumerable<IClientMutationMarker> clientMutationMarkers)
+        public Mutations(IEnumerable<IMutationMarker> clientMutationMarkers)
         {
             Name = "Mutations";
 

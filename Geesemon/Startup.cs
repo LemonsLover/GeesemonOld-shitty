@@ -1,10 +1,12 @@
 using Geesemon.Database;
+using Geesemon.Database.Models;
 using Geesemon.Database.Repositories;
 using Geesemon.GraphQL;
 using Geesemon.GraphQL.Abstraction;
+using Geesemon.GraphQL.Modules.Auth;
+using Geesemon.GraphQL.Modules.Chats;
+using Geesemon.GraphQL.Modules.Users;
 using Geesemon.GraphQL.Services;
-using Geesemon.GraphQL.Users;
-using Geesemon.Utils;
 using GraphQL;
 using GraphQL.Server;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -43,7 +45,6 @@ namespace Geesemon
 #endif
             services.AddDbContext<AppDatabaseContext>(options => options.UseMySQL(connectionString));
             services.AddScoped<UsersRepository>();
-            services.AddScoped<RolesRepository>();
             services.AddScoped<ChatsRepository>();
 
             services.AddAuthentication(options =>
@@ -72,14 +73,20 @@ namespace Geesemon
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IDocumentExecuter, SubscriptionDocumentExecuter>();
 
-            services.AddTransient<IClientQueryMarker, UsersQueries>();
-            services.AddTransient<IClientMutationMarker, UsersMutations>();
-            services.AddTransient<IClientSubscriptionMarker, UsersSubscriptions>();
+            services.AddTransient<IQueryMarker, UsersQueries>();
+            services.AddTransient<IMutationMarker, UsersMutations>();
+            services.AddTransient<ISubscriptionMarker, UsersSubscriptions>();
             services.AddSingleton<UserAddedService>();
+
+            services.AddTransient<IQueryMarker, ChatsQueries>();
+            services.AddSingleton<ChatsService>();
+            
+            services.AddTransient<IMutationMarker, AuthMutations>();
+            services.AddTransient<AuthService>();
 
             services.AddTransient<AppSchema>();
             services
-                .AddGraphQL()
+                .AddGraphQL(options => options.EnableMetrics = true)
                 .AddSystemTextJson()
                 .AddWebSockets()
                 .AddDataLoader()
@@ -87,10 +94,12 @@ namespace Geesemon
                 .AddGraphQLAuthorization(options =>
                 {
                     options.AddPolicy("Authenticated", p => p.RequireAuthenticatedUser());
-                    options.AddPolicy("Admin", p => p.RequireClaim(ClaimTypes.Role, "admin"));
-                    options.AddPolicy("User", p => p.RequireClaim(ClaimTypes.Role, "user"));
+                    options.AddPolicy("Admin", p => p.RequireClaim(ClaimTypes.Role, RoleEnum.Admin.ToString()));
+                    options.AddPolicy("User", p => p.RequireClaim(ClaimTypes.Role, RoleEnum.User.ToString()));
                 })
                 .AddErrorInfoProvider(options => options.ExposeExceptionStackTrace = true);
+
+
 
 
             services.AddSpaStaticFiles(configuration =>
@@ -116,6 +125,9 @@ namespace Geesemon
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            //app.UseAuthorization();
 
             app.UseWebSockets();
             app.UseGraphQLWebSockets<AppSchema>();

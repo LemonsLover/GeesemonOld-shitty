@@ -1,16 +1,27 @@
-import * as React from 'react';
-import { Route } from 'react-router';
-import Layout from './components/Layout';
-import Home from './components/Home';
-import Counter from './components/Counter';
-import FetchData from './components/FetchData';
+import React, {FC, useEffect} from 'react';
+import {Route} from 'react-router';
+import {Routes} from 'react-router-dom';
+import {Users} from './components/Users/Users';
+import {useSubscription} from '@apollo/client';
+import {USER_ADDED_SUBSCRIPTION, UserAddedData, UserAddedVars} from './modules/users/users.subscriptions';
+import {useDispatch} from 'react-redux';
+import {actions} from './modules/users/users.reducer';
 
-import './custom.css'
+export const App: FC = () => {
+    const userAddedSubscription = useSubscription<UserAddedData, UserAddedVars>(USER_ADDED_SUBSCRIPTION);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (userAddedSubscription.data) {
+            dispatch(actions.addUser(userAddedSubscription.data.userAdded));
+        }
+    }, [userAddedSubscription.data]);
 
-export default () => (
-    <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
-    </Layout>
-);
+    return (
+        <div>
+            App Component
+            <Routes>
+                <Route path="*" element={<Users/>}/>
+            </Routes>
+        </div>
+    );
+};
