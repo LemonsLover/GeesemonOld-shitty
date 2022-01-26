@@ -12,7 +12,7 @@ namespace Geesemon.GraphQL.Modules.Auth
         public AuthMutations(UsersRepository usersRepository, AuthService authService)
         {
             Field<AuthType>()
-                .Name("login")
+                .Name("Login")
                 .Argument<LoginAuthInputType, LoginAuthInput>("loginAuthInputType", "Argument for login User")
                 .ResolveAsync(async (context) =>
                 {

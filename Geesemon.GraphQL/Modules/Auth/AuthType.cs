@@ -7,8 +7,17 @@ namespace Geesemon.GraphQL.Modules.Auth
     {
         public AuthType()
         {
-            Field(a => a.User, type: typeof(UserType));
-            Field(a => a.Token, type: typeof(StringGraphType));
+            Name = "Auth";
+
+            Field<UserType>()
+                .Name("User")
+                .Description("User type")
+                .Resolve(context => context.Source.User);
+
+            Field<StringGraphType>()
+                .Name("Token")
+                .Description("Token type")
+                .Resolve(context => context.Source.Token);
         }
     }
 }

@@ -141,7 +141,7 @@ namespace Geesemon
                 if (env.IsDevelopment())
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
-                }
+                } 
             });
         }
     }

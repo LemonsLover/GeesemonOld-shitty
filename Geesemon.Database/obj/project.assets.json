@@ -1669,7 +1669,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Grozer PC\\.nuget\\packages\\": {},
+    "C:\\Users\\Yehor\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
@@ -1678,14 +1678,14 @@
       "projectUniqueName": "D:\\Projects\\Geesemon\\Geesemon.Database\\Geesemon.Database.csproj",
       "projectName": "Geesemon.Database",
       "projectPath": "D:\\Projects\\Geesemon\\Geesemon.Database\\Geesemon.Database.csproj",
-      "packagesPath": "C:\\Users\\Grozer PC\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\Yehor\\.nuget\\packages\\",
       "outputPath": "D:\\Projects\\Geesemon\\Geesemon.Database\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Grozer PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Yehor\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1746,7 +1746,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

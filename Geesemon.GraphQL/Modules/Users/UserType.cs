@@ -7,16 +7,34 @@ namespace Geesemon.GraphQL.Modules.Users
 {
     public class UserType : ObjectGraphType<User>
     {
-        private readonly ChatsRepository _chatsRepository;
-        public UserType(ChatsRepository chatsRepository)
+        public UserType()
         {
-            _chatsRepository = chatsRepository;
+            Name = "User";
 
-            Field(u => u.Id, type: typeof(IdGraphType));
-            Field(u => u.Email, type: typeof(StringGraphType));
-            Field(u => u.Role, type: typeof(RoleEnumType));
-            Field(c => c.CreatedAt, type: typeof(DateTimeGraphType));
-            Field(c => c.UpdatedAt, type: typeof(DateTimeGraphType));
+            Field<IdGraphType>()
+               .Name("Id")
+               .Description("User id.")
+               .Resolve(context => context.Source.Id);
+
+            Field<StringGraphType>()
+               .Name("Email")
+               .Description("User Email.")
+               .Resolve(context => context.Source.Email);
+
+            Field<RoleEnumType>()
+               .Name("Role")
+               .Description("User role.")
+               .Resolve(context => context.Source.Role);
+
+            Field<DateTimeGraphType>()
+               .Name("CreatedAt")
+               .Description("User creation date.")
+               .Resolve(context => context.Source.CreatedAt);
+
+            Field<DateTimeGraphType>()
+               .Name("UpdatedAt")
+               .Description("User update date.")
+               .Resolve(context => context.Source.UpdatedAt);
         }
     }
 
