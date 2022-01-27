@@ -15,7 +15,7 @@ namespace Geesemon.GraphQL.Modules.Chats
                 .Resolve(context => context.Source.Id);
 
             Field<StringGraphType>()
-                .Name("Id")
+                .Name("Name")
                 .Description("Chat name.")
                 .Resolve(context => context.Source.Name);
 

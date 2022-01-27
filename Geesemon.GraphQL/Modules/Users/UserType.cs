@@ -1,6 +1,4 @@
 ﻿using Geesemon.Database.Models;
-using Geesemon.Database.Repositories;
-using Geesemon.GraphQL.Modules.Messages;
 using GraphQL.Types;
 
 namespace Geesemon.GraphQL.Modules.Users

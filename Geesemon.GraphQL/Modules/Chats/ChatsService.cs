@@ -3,7 +3,7 @@ using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-namespace Geesemon.GraphQL.Services
+namespace Geesemon.GraphQL.Modules.Chats
 {
     public class ChatsService
     {

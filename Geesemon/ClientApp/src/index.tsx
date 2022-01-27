@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {App} from './App';
 import registerServiceWorker from './registerServiceWorker';
-import store from './store/redux-store';
+import {store} from './store/store';
 import {client} from './gql/client';
 import {BrowserRouter} from 'react-router-dom';
 import {ApolloProvider} from '@apollo/client';

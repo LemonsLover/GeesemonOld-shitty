@@ -1,13 +1,13 @@
 ﻿using Geesemon.GraphQL.Modules.Users;
 using GraphQL.Types;
 
-namespace Geesemon.GraphQL.Modules.Auth
+namespace Geesemon.GraphQL.Modules.Auth.DTO
 {
-    public class AuthType : ObjectGraphType<AuthModel>
+    public class AuthResponseType : ObjectGraphType<AuthModel>
     {
-        public AuthType()
+        public AuthResponseType()
         {
-            Name = "Auth";
+            Name = "AuthResponseType";
 
             Field<UserType>()
                 .Name("User")

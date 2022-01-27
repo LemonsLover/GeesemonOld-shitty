@@ -5,8 +5,8 @@ using Geesemon.GraphQL;
 using Geesemon.GraphQL.Abstraction;
 using Geesemon.GraphQL.Modules.Auth;
 using Geesemon.GraphQL.Modules.Chats;
+using Geesemon.GraphQL.Modules.Messages;
 using Geesemon.GraphQL.Modules.Users;
-using Geesemon.GraphQL.Services;
 using GraphQL;
 using GraphQL.Server;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -46,6 +46,7 @@ namespace Geesemon
             services.AddDbContext<AppDatabaseContext>(options => options.UseMySQL(connectionString));
             services.AddScoped<UsersRepository>();
             services.AddScoped<ChatsRepository>();
+            services.AddScoped<MessagesRepository>();
 
             services.AddAuthentication(options =>
             {
@@ -76,13 +77,19 @@ namespace Geesemon
             services.AddTransient<IQueryMarker, UsersQueries>();
             services.AddTransient<IMutationMarker, UsersMutations>();
             services.AddTransient<ISubscriptionMarker, UsersSubscriptions>();
-            services.AddSingleton<UserAddedService>();
+            services.AddSingleton<UsersService>();
 
             services.AddTransient<IQueryMarker, ChatsQueries>();
             services.AddSingleton<ChatsService>();
             
+            services.AddTransient<IQueryMarker, AuthQueries>();
             services.AddTransient<IMutationMarker, AuthMutations>();
             services.AddTransient<AuthService>();
+
+            services.AddTransient<IQueryMarker, MessagesQueries>();
+            services.AddTransient<IMutationMarker, MessagesMutations>();
+            services.AddTransient<ISubscriptionMarker, MessagesSubscriptions>();
+            services.AddSingleton<MessagesService>();
 
             services.AddTransient<AppSchema>();
             services
@@ -93,9 +100,9 @@ namespace Geesemon
                 .AddGraphTypes(typeof(AppSchema), ServiceLifetime.Transient)
                 .AddGraphQLAuthorization(options =>
                 {
-                    options.AddPolicy("Authenticated", p => p.RequireAuthenticatedUser());
-                    options.AddPolicy("Admin", p => p.RequireClaim(ClaimTypes.Role, RoleEnum.Admin.ToString()));
-                    options.AddPolicy("User", p => p.RequireClaim(ClaimTypes.Role, RoleEnum.User.ToString()));
+                    options.AddPolicy(AuthPolicies.Authenticated, p => p.RequireAuthenticatedUser());
+                    options.AddPolicy(AuthPolicies.Admin, p => p.RequireClaim(ClaimTypes.Role, RoleEnum.Admin.ToString()));
+                    options.AddPolicy(AuthPolicies.User, p => p.RequireClaim(ClaimTypes.Role, RoleEnum.User.ToString()));
                 })
                 .AddErrorInfoProvider(options => options.ExposeExceptionStackTrace = true);
 

@@ -1,5 +1,6 @@
 ﻿using Geesemon.Database.Repositories;
 using Geesemon.GraphQL.Abstraction;
+using Geesemon.GraphQL.Modules.Auth;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
@@ -15,10 +16,10 @@ namespace Geesemon.GraphQL.Modules.Chats
                 .Name("getMyChats")
                 .ResolveAsync(async context =>
                 {
-                    string userUmail = httpContextAccessor.HttpContext.User.Identity.Name;
-                    return await chatsRepository.GetMyAsync(userUmail, 1, 10);
+                    string userId = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthClaimsIdentity.DefaultIdClaimType)?.Value;
+                    return await chatsRepository.GetMyAsync(int.Parse(userId), 1, 10);
                 })
-                .AuthorizeWith("Authenticated");
+                .AuthorizeWith(AuthPolicies.Authenticated);
         }
     }
 }

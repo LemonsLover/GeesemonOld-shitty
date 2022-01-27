@@ -1,32 +1,42 @@
-import React, { FC, useEffect } from "react";
-import { Route } from "react-router";
-import { Routes } from "react-router-dom";
-import { Users } from "./components/Users/Users";
-import { useSubscription } from "@apollo/client";
-import {
-  USER_ADDED_SUBSCRIPTION,
-  UserAddedData,
-  UserAddedVars,
-} from "./modules/users/users.subscriptions";
-import { useDispatch } from "react-redux";
-import { actions } from "./modules/users/users.reducer";
+import React, {useEffect, useState} from 'react';
+import {Route} from 'react-router';
+import {Routes} from 'react-router-dom';
+import {Error} from './components/Error/Error';
+import {Login} from './components/Login/Login';
+import {Layout} from './components/Layout/Layout';
+import {useQuery} from '@apollo/client';
+import {IS_AUTH_QUERY, IsAuthData, IsAuthVars} from './modules/auth/auth.queries';
+import {Loading} from './components/Loading/Loading';
+import {useAppDispatch} from './store/store';
+import {setAuthData, setIsAuth} from './modules/auth/auth.slice';
 
 export const App = () => {
-  const userAddedSubscription = useSubscription<UserAddedData, UserAddedVars>(
-    USER_ADDED_SUBSCRIPTION
-  );
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (userAddedSubscription.data) {
-      dispatch(actions.addUser(userAddedSubscription.data.userAdded));
-    }
-  }, [userAddedSubscription.data]);
+    const isAuthQuery = useQuery<IsAuthData, IsAuthVars>(IS_AUTH_QUERY);
+    const dispatch = useAppDispatch();
+    const [initialized, setInitialized] = useState(false);
 
-  return (
-    <div>
-      <Routes>
-        <Route path="*" element={<Users />} />
-      </Routes>
-    </div>
-  );
+    useEffect(() => {
+        if (isAuthQuery.data) {
+            dispatch(setIsAuth(true));
+            dispatch(setAuthData(isAuthQuery.data.isAuth));
+            localStorage.setItem('token', isAuthQuery.data.isAuth.token);
+            setInitialized(true);
+        }
+        if (isAuthQuery.error) {
+            setInitialized(true);
+        }
+    }, [isAuthQuery]);
+
+    if (isAuthQuery.loading || !initialized)
+        return <Loading/>;
+
+    return (
+        <div>
+            <Routes>
+                <Route path="/*" element={<Layout/>}/>
+                <Route path="/auth/login" element={<Login/>}/>
+                <Route path="*" element={<Error/>}/>
+            </Routes>
+        </div>
+    );
 };

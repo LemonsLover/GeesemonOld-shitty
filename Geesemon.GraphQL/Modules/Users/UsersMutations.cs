@@ -2,7 +2,6 @@
 using Geesemon.Database.Repositories;
 using Geesemon.GraphQL.Abstraction;
 using Geesemon.GraphQL.Modules.Users.DTO;
-using Geesemon.GraphQL.Services;
 using GraphQL;
 using GraphQL.Types;
 
@@ -10,11 +9,8 @@ namespace Geesemon.GraphQL.Modules.Users
 {
     public class UsersMutations : ObjectGraphType, IMutationMarker
     {
-        private readonly UsersRepository _usersRepository;
-        public UsersMutations(UsersRepository usersRepository, UserAddedService userAddedService)
+        public UsersMutations(UsersRepository usersRepository, UsersService usersService)
         {
-            _usersRepository = usersRepository;
-
             Name = "UsersMutation";
 
             Field<UserType>()
@@ -23,8 +19,8 @@ namespace Geesemon.GraphQL.Modules.Users
                 .ResolveAsync(async (context) => 
                 {
                     User user = context.GetArgument<User>("createUserInputType");
-                    user = await _usersRepository.CreateAsync(user);
-                    userAddedService.Add(user);
+                    user = await usersRepository.CreateAsync(user);
+                    usersService.AddUser(user);
                     return user;
                 });
         }

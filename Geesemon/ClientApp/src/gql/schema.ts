@@ -8,22 +8,42 @@ export const schema = gql`
     }
 
     type Queries {
-        getUsers: [UserType]
+        getUsers: [User]
+        getMyChats: [Chat]
+        isAuth: AuthResponseType
+        getMessages: [Message]
     }
 
-    type UserType {
+    type User {
+        """
+        User id.
+        """
         id: ID
+
+        """
+        User Email.
+        """
         email: String
-        chats: [ChatType]
+
+        """
+        User role.
+        """
+        role: RoleEnum
+
+        """
+        User creation date.
+        """
         createdAt: DateTime
+
+        """
+        User update date.
+        """
         updatedAt: DateTime
     }
 
-    type ChatType {
-        id: ID
-        name: String
-        createdAt: DateTime
-        updatedAt: DateTime
+    enum RoleEnum {
+        USER
+        ADMIN
     }
 
     """
@@ -31,13 +51,101 @@ export const schema = gql`
     """
     scalar DateTime
 
+    type Chat {
+        """
+        Chat id.
+        """
+        id: ID
+
+        """
+        Chat name.
+        """
+        name: String
+
+        """
+        Chat Type.
+        """
+        type: Type
+
+        """
+        Chat creation date.
+        """
+        createAt: DateTime
+
+        """
+        Chat update date.
+        """
+        updatedAt: DateTime
+    }
+
+    enum Type {
+        DIALOG
+        GROUP
+    }
+
+    type AuthResponseType {
+        """
+        User type
+        """
+        user: User
+
+        """
+        Token type
+        """
+        token: String
+    }
+
+    type Message {
+        """
+        Message id.
+        """
+        id: ID
+
+        """
+        Message Text.
+        """
+        text: String
+
+        """
+        Message's chat id.
+        """
+        chatId: Int
+
+        """
+        Message's user id.
+        """
+        userId: Int
+
+        """
+        Message's creation date.
+        """
+        createdAt: DateTime
+
+        """
+        Message's update date.
+        """
+        updatedAt: DateTime
+    }
+
     type Mutations {
         createUser(
             """
             Argument for create new User
             """
             createUserInputType: CreateUserInputType
-        ): UserType
+        ): User
+        login(
+            """
+            Argument for login User
+            """
+            loginAuthInputType: LoginAuthInputType
+        ): AuthResponseType
+        createMessage(
+            """
+            Argument for create new Message
+            """
+            createMessageInputType: CreateMessageInputType
+        ): Message
     }
 
     input CreateUserInputType {
@@ -47,8 +155,20 @@ export const schema = gql`
         email: String
     }
 
-    type Subscriptions {
-        userAdded: UserType
+    input LoginAuthInputType {
+        email: String
+        password: String
     }
 
+    input CreateMessageInputType {
+        """
+        Message Text.
+        """
+        text: String
+    }
+
+    type Subscriptions {
+        userAdded: User
+        messageAdded: Message
+    }
 `

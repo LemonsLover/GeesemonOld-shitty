@@ -16,9 +16,9 @@ namespace Geesemon.Database.Repositories
             _ctx = ctx;
         }
 
-        public async Task<IEnumerable<Chat>> GetMyAsync(string userEmail, int page = 1, int pageSize = 10)
+        public async Task<IEnumerable<Chat>> GetMyAsync(int userId, int page = 1, int pageSize = 10)
         {
-            return await _ctx.Chats.Include(c => c.Users).Where(c => c.Users.Any(u => u.Email == userEmail)).Take(pageSize).Skip((page - 1) * pageSize).ToListAsync();
+            return await _ctx.Chats.Include(c => c.Users).Where(c => c.Users.Any(u => u.Id == userId)).Take(pageSize).Skip((page - 1) * pageSize).ToListAsync();
         }
 
         public async Task<Chat> GetByIdAsync(int chatId)

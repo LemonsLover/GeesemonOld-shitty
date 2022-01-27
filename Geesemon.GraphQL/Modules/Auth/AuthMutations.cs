@@ -1,7 +1,6 @@
 ﻿using Geesemon.Database.Repositories;
 using Geesemon.GraphQL.Abstraction;
 using Geesemon.GraphQL.Modules.Auth.DTO;
-using Geesemon.GraphQL.Services;
 using GraphQL;
 using GraphQL.Types;
 
@@ -11,7 +10,7 @@ namespace Geesemon.GraphQL.Modules.Auth
     {
         public AuthMutations(UsersRepository usersRepository, AuthService authService)
         {
-            Field<AuthType>()
+            Field<AuthResponseType>()
                 .Name("Login")
                 .Argument<LoginAuthInputType, LoginAuthInput>("loginAuthInputType", "Argument for login User")
                 .ResolveAsync(async (context) =>
