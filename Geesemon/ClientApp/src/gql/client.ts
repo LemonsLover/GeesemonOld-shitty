@@ -1,4 +1,4 @@
-import {ApolloClient, HttpLink, InMemoryCache, split} from '@apollo/client';
+import {ApolloClient, ApolloLink, HttpLink, InMemoryCache, split} from '@apollo/client';
 import {schema} from './schema';
 import {WebSocketLink} from '@apollo/client/link/ws';
 import {getMainDefinition} from '@apollo/client/utilities';
@@ -8,6 +8,7 @@ const httpLink = new HttpLink({
     headers: {
         authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : '',
     },
+
 });
 
 const wsLink = new WebSocketLink({
@@ -37,12 +38,12 @@ export const client = new ApolloClient({
     cache: new InMemoryCache({addTypename: false}),
     defaultOptions: {
         watchQuery: {
-            fetchPolicy: 'network-only',
+            // fetchPolicy: 'network-only',
             errorPolicy: 'all',
             notifyOnNetworkStatusChange: true,
         },
         query: {
-            fetchPolicy: 'network-only',
+            // fetchPolicy: 'network-only',
             errorPolicy: 'all',
             notifyOnNetworkStatusChange: true,
         },

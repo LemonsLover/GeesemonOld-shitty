@@ -1,5 +1,6 @@
 import {gql} from '@apollo/client';
 import {Message} from './messages.types';
+import {MESSAGE_FIELDS} from './messages.fragments';
 
 export type CreateMessageData = { createMessage: Message }
 
@@ -9,14 +10,10 @@ export type createMessageInputType = {
 }
 
 export const CREATE_MESSAGE_MUTATION = gql`
+    ${MESSAGE_FIELDS}
     mutation CreateMessage($createMessageInputType: CreateMessageInputType!) {
         createMessage(createMessageInputType: $createMessageInputType) {
-            id
-            text
-            chatId
-            userId
-            createdAt
-            updatedAt
+            ...MessageFields
         }
     }
 `;

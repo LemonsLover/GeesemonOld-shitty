@@ -8,7 +8,7 @@ import {useQuery} from '@apollo/client';
 import {IS_AUTH_QUERY, IsAuthData, IsAuthVars} from './modules/auth/auth.queries';
 import {Loading} from './components/Loading/Loading';
 import {useAppDispatch} from './store/store';
-import {setAuthData, setIsAuth} from './modules/auth/auth.slice';
+import {authActions} from './modules/auth/auth.slice';
 
 export const App = () => {
     const isAuthQuery = useQuery<IsAuthData, IsAuthVars>(IS_AUTH_QUERY);
@@ -17,9 +17,7 @@ export const App = () => {
 
     useEffect(() => {
         if (isAuthQuery.data) {
-            dispatch(setIsAuth(true));
-            dispatch(setAuthData(isAuthQuery.data.isAuth));
-            localStorage.setItem('token', isAuthQuery.data.isAuth.token);
+            dispatch(authActions.setAuth({isAuth: true, authData: isAuthQuery.data.isAuth}));
             setInitialized(true);
         }
         if (isAuthQuery.error) {

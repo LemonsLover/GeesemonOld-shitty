@@ -7,10 +7,8 @@ namespace Geesemon.GraphQL.Modules.Messages.DTO
     {
         public CreateMessageInputType()
         {
-            Field<StringGraphType>()
-                .Name("Text")
-                .Description("Message Text.")
-                .Resolve(context => context.Source.Text);
+            Field(m => m.Text)
+                .Description("Message Text.");
         }
     }
 }

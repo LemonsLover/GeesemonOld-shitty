@@ -3,21 +3,21 @@ import {Auth} from './auth.types';
 
 const initialState = {
     isAuth: false,
-    authData: null as null | Auth,
+    authData: null as Auth | null | undefined,
 };
 
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setIsAuth: (state, action: PayloadAction<boolean>) => {
-            state.isAuth = action.payload;
-        },
-        setAuthData: (state, action: PayloadAction<Auth | null>) => {
-            state.authData = action.payload;
+        setAuth: (state, action: PayloadAction<{ isAuth: boolean, authData: Auth | null | undefined }>) => {
+            const token = action.payload?.authData?.token ? action.payload?.authData?.token : '';
+            localStorage.setItem('token', token);
+            state.isAuth = action.payload.isAuth;
+            state.authData = action.payload.authData;
         },
     },
 });
 
-export const {setIsAuth, setAuthData} = authSlice.actions;
+export const authActions = authSlice.actions;
 export const authReducer = authSlice.reducer;

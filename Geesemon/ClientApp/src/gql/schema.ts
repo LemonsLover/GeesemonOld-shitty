@@ -11,7 +11,12 @@ export const schema = gql`
         getUsers: [User]
         getMyChats: [Chat]
         isAuth: AuthResponseType
-        getMessages: [Message]
+        getMessages(
+            """
+            Argument for get messages.
+            """
+            getMessagesInputType: GetMessagesInputType
+        ): [Message]
     }
 
     type User {
@@ -127,6 +132,18 @@ export const schema = gql`
         updatedAt: DateTime
     }
 
+    input GetMessagesInputType {
+        """
+        Message page number.
+        """
+        page: Int!
+
+        """
+        Message page size.
+        """
+        pageSize: Int!
+    }
+
     type Mutations {
         createUser(
             """
@@ -164,7 +181,7 @@ export const schema = gql`
         """
         Message Text.
         """
-        text: String
+        text: String!
     }
 
     type Subscriptions {

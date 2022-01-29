@@ -15,9 +15,12 @@ namespace Geesemon.Database.Repositories
             _ctx = ctx;
         }
 
-        public async Task<IEnumerable<Message>> GetAsync(int page = 1, int pageSize = 10)
+        public async Task<IEnumerable<Message>> GetAsync(int page = 1, int pageSize = 30)
         {
-            return await _ctx.Messages.Take(pageSize).Skip((page - 1) * pageSize).ToListAsync();
+            return await _ctx.Messages.OrderByDescending(m => m.CreatedAt)
+                .Skip((page - 1) * pageSize).Take(pageSize)
+                .OrderBy(m => m.CreatedAt)
+                .ToListAsync();
         }
 
         public async Task<Message> GetByIdAsync(int messageId)

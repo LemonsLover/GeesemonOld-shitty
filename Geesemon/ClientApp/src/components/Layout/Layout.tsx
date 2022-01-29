@@ -1,30 +1,30 @@
 import React from 'react';
-import {Navigate, Route, Routes} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import {Messages} from '../Messages/Messages';
-import {Error} from '../Error/Error';
 import {useAppDispatch, useAppSelector} from '../../store/store';
-import {setAuthData, setIsAuth} from '../../modules/auth/auth.slice';
+import {Chats} from '../Chats/Chats';
+import s from './Layout.module.css';
+import {authActions} from '../../modules/auth/auth.slice';
+import {client} from '../../gql/client';
 
 export const Layout = () => {
     const isAuth = useAppSelector(state => state.auth.isAuth);
     const dispatch = useAppDispatch();
 
+    const logoutHandler = async () => {
+        localStorage.removeItem('token');
+        dispatch(authActions.setAuth({isAuth: false, authData: null}));
+    };
+
     if (!isAuth)
         return <Navigate to={'/auth/login'}/>;
 
-    const logoutHandler = () => {
-        localStorage.removeItem('token');
-        dispatch(setIsAuth(false))
-        dispatch(setAuthData(null))
-    };
-
     return (
-        <>
+
+        <div className={s.wrapper}>
             <button onClick={logoutHandler}>Logout</button>
-            <Routes>
-                <Route path={'/'} element={<Messages/>}/>
-                <Route path={'*'} element={<Error/>}/>
-            </Routes>
-        </>
+            <Chats/>
+            <Messages/>
+        </div>
     );
 };

@@ -2,8 +2,8 @@ import React, {FormEvent, useState} from 'react';
 import {useMutation} from '@apollo/client';
 import {LOGIN_MUTATION, LoginData, LoginVars} from '../../modules/auth/auth.mutations';
 import {useAppDispatch} from '../../store/store';
-import {setAuthData, setIsAuth} from '../../modules/auth/auth.slice';
 import {useNavigate} from 'react-router-dom';
+import {authActions} from '../../modules/auth/auth.slice';
 
 export const Login = () => {
     const [email, setEmail] = useState('');
@@ -25,11 +25,7 @@ export const Login = () => {
         if (response.errors) {
             console.log(response.errors);
         } else {
-            dispatch(setIsAuth(true));
-            if (response.data) {
-                dispatch(setAuthData(response.data.login));
-                localStorage.setItem('token', response.data.login.token);
-            }
+            dispatch(authActions.setAuth({isAuth: true, authData: response.data?.login}));
             navigate('/');
         }
     };

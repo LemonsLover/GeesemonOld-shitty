@@ -1,7 +1,4 @@
-export type User = {
-    id: number,
-    email: string,
-}
+import {User} from '../users/users.types';
 
 export type Auth = {
     user: User,

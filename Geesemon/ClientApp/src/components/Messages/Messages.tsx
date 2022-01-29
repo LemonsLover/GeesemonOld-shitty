@@ -1,39 +1,40 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
 import {useAppSelector} from '../../store/store';
-import {useMutation, useQuery, useSubscription} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import {GET_MESSAGES_QUERY, GetMessagesData, GetMessagesVars} from '../../modules/messages/messages.queries';
-import {addMessage, setMessages} from '../../modules/messages/messages.slice';
-import {
-    MESSAGE_ADDED_SUBSCRIPTION,
-    MessageAddedData,
-    MessageAddedVars,
-} from '../../modules/messages/messages.subscriptions';
+import {MESSAGE_ADDED_SUBSCRIPTION} from '../../modules/messages/messages.subscriptions';
 import s from './Messages.module.css';
 import {CREATE_MESSAGE_MUTATION, CreateMessageData, CreateMessageVars} from '../../modules/messages/messages.mutations';
-import {Loading} from '../Loading/Loading';
 
 export const Messages = () => {
-    const messages = useAppSelector(state => state.messages.messages);
-    const messagesLoading = useAppSelector(state => state.messages.messagesLoading);
-    const dispatch = useDispatch();
-    const getMessagesQuery = useQuery<GetMessagesData, GetMessagesVars>(GET_MESSAGES_QUERY);
-    const messageAddedSubscription = useSubscription<MessageAddedData, MessageAddedVars>(MESSAGE_ADDED_SUBSCRIPTION);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(30);
+    const getMessagesQuery = useQuery<GetMessagesData, GetMessagesVars>(GET_MESSAGES_QUERY, {
+        variables: {
+            getMessagesInputType: {
+                page: page,
+                pageSize: pageSize,
+            },
+        },
+    });
     const [createUserMutation, createUserMutationOptions] = useMutation<CreateMessageData, CreateMessageVars>(CREATE_MESSAGE_MUTATION);
-
+    const authData = useAppSelector(state => state.auth.authData);
     const [newMessageText, setNewMessageText] = useState('');
 
     useEffect(() => {
-        if (messageAddedSubscription.data) {
-            dispatch(addMessage(messageAddedSubscription.data.messageAdded));
-        }
-    }, [messageAddedSubscription.data]);
-
-    useEffect(() => {
-        if (getMessagesQuery.data) {
-            dispatch(setMessages(getMessagesQuery.data.getMessages));
-        }
-    }, [getMessagesQuery.data]);
+        getMessagesQuery.subscribeToMore({
+            document: MESSAGE_ADDED_SUBSCRIPTION,
+            updateQuery: (prev, {subscriptionData}) => {
+                if (!subscriptionData.data)
+                    return prev;
+                // @ts-ignore
+                const newFeedItem = subscriptionData.data.messageAdded;
+                const result = {...prev, getMessages: [...prev.getMessages, newFeedItem]};
+                console.log(result);
+                return result;
+            },
+        });
+    }, []);
 
     const onEnterPress = async (e: any) => {
         if (e.keyCode == 13 && e.shiftKey == false) {
@@ -49,15 +50,15 @@ export const Messages = () => {
         }
     };
 
-    if (messagesLoading)
-        return <Loading/>;
+    console.log(getMessagesQuery.data?.getMessages);
 
     return (
         <div className={s.wrapper}>
             <div className={s.messages}>
-                {messages.map(message => (
+                {getMessagesQuery.data?.getMessages.map(message => (
                     <div key={message.id}
-                         className={[s.message, message.userId === 21 ? s.myMessage : s.othersMessage].join(' ')}>{message.text}</div>
+                         className={[s.message, message?.userId?.toString() === authData?.user.id ? s.myMessage : s.othersMessage].join(' ')}
+                    >{message.text}</div>
                 ))}
             </div>
             <textarea
